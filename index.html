@@ -4,88 +4,94 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
 <body>
 
-  <a-scene embedded arjs="sourceType: webcam;">
+  <a-scene>
 
-    <!-- Lighting -->
-    <a-light type="ambient" intensity="0.5"></a-light>
-    <a-light type="point" position="5 5 5" intensity="0.7"></a-light>
-
-    <!-- Shadows -->
-    <a-light type="directional" position="-5 5 -5" target="#your-model" castShadow="true"></a-light>
+    <!-- Image on Top -->
+    <a-plane
+      position="0 7 0"
+      rotation="-90 0 0"
+      width="10"
+      height="10"
+      material="./d.jpg; repeat: 4 4"
+    ></a-plane>
 
     <!-- Ground Plane -->
-    <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#888" shadow="receive: true"></a-plane>
+    <a-plane
+      position="0 -1.5 0"
+      rotation="-90 0 0"
+      width="20"
+      height="20"
+      material="src: ./d.jpg; repeat: 4 4"
+    ></a-plane>
 
-    <!-- QR Code Marker -->
-    <a-marker type="barcode" value="./INDQ STUDIO.png">
-      <!-- GLTF Model with Automatic Rotation, Scale, and Position Adjustment -->
-      <a-entity id="your-model" gltf-model="./your-model.gltf" scale="0.1 0.1 0.1" position="0 0 0" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" shadow="cast: true"></a-entity>
+    <!-- Walls -->
+    <a-plane
+      position="0 10.5 -10.1"
+      rotation="0 0 0"
+      width="20"
+      height="8"
+      material="src: ./Well Come.png"
+    ></a-plane>
 
-      <!-- Text for Product Name -->
-      <a-text value="Doppler Device" position="-0.8 1.5 -0.5" color="#000" align="center" scale="1.5 1.5 1.5"></a-text>
+    <a-plane
+      position="0 2.5 -10"
+      rotation="0 0 0"
+      width="20"
+      height="8"
+      material="src: ./Scr.png"
+    ></a-plane>
 
-      <!-- Text for Product Description -->
-      <a-text value="Product Description goes here." position="-0.8 1.2 -0.5" color="#333" align="center" width="2"></a-text>
+    <a-plane
+      position="0 2.5 10"
+      rotation="0 180 0"
+      width="20"
+      height="8"
+      material="src: ./top.jpg"
+    ></a-plane>
 
-      <!-- User Interaction -->
-      <a-entity class="clickable" gltf-model="#your-model" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+    <a-plane
+      position="-10 2.5 0"
+      rotation="0 90 0"
+      width="20"
+      height="8"
+      material="src: ./indq_logo.png"
+    ></a-plane>
 
-      <!-- User Interface Button -->
-      <a-entity ui-button></a-entity>
-    </a-marker>
+    <a-plane
+      position="10 2.5 0"
+      rotation="0 -90 0"
+      width="20"
+      height="8"
+      material="src: ./indq_logo.png"
+    ></a-plane>
 
-    <!-- Camera -->
-    <a-entity camera></a-entity>
+    <!-- Product Entity with Image and GIF -->
+    <a-entity position="-6 .5 0">
+      <!-- Product Image -->
+      <a-plane
+        position="11 1.5 -9.5"
+        src="./gif/giphy (1).gif"
+        height="3"
+        width="6"
+        rotation="0 0 0"
+      ></a-plane>
+    </a-entity>
 
-    <!-- Define UI Button Component -->
-    <script>
-      AFRAME.registerComponent('ui-button', {
-        init: function () {
-          var button = document.createElement('button');
-          button.innerHTML = 'Toggle Animation';
-          button.style.position = 'absolute';
-          button.style.bottom = '20px';
-          button.style.left = '50%';
-          button.style.transform = 'translateX(-50%)';
-          button.style.padding = '10px';
-          button.style.background = 'rgba(255, 255, 255, 0.7)';
-          button.style.border = 'none';
-          button.style.cursor = 'pointer';
+    <!-- Sky (Top) -->
+    <a-sky color="#000000"></a-sky>
 
-          button.addEventListener('click', function () {
-            var model = document.querySelector('#your-model');
-            var mixer = model.components['animation-mixer'];
-            if (mixer && mixer.mixer) {
-              if (mixer.mixer.paused) {
-                mixer.mixer.play();
-              } else {
-                mixer.mixer.pause();
-              }
-            }
-          });
-
-          this.el.appendChild(button);
-        }
-      });
-    </script>
-
-    <!-- Define User Interaction Component -->
-    <script>
-      AFRAME.registerComponent('clickable', {
-        init: function () {
-          var el = this.el;
-          el.addEventListener('click', function () {
-            console.log('Model Clicked!');
-            // Add your custom interaction logic here
-          });
-        }
-      });
-    </script>
-
+    <!-- Camera and Controls -->
+    <a-camera>
+      <a-cursor
+        animation__click="property: scale; startEvents: click; easing: easeInCubic; from: 0.1 0.1 0.1; to: 1 1 1; dur: 10"
+        event-set__mouseenter="_event: mouseenter; color: springgreen"
+        event-set__mouseleave="_event: mouseleave; color: black"
+        raycaster="objects: .interactive"
+      ></a-cursor>
+    </a-camera>
   </a-scene>
 
 </body>

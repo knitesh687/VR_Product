@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+</head>
+<body>
+
+  <a-scene embedded arjs="sourceType: webcam;">
+
+    <!-- Lighting -->
+    <a-light type="ambient" intensity="0.5"></a-light>
+    <a-light type="point" position="5 5 5" intensity="0.7"></a-light>
+
+    <!-- Shadows -->
+    <a-light type="directional" position="-5 5 -5" target="#your-model" castShadow="true"></a-light>
+
+    <!-- Ground Plane -->
+    <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#888" shadow="receive: true"></a-plane>
+
+    <!-- QR Code Marker -->
+    <a-marker type="barcode" value="./INDQ STUDIO.png">
+      <!-- GLTF Model with Automatic Rotation, Scale, and Position Adjustment -->
+      <a-entity id="your-model" gltf-model="./your-model.gltf" scale="0.1 0.1 0.1" position="0 0 0" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" shadow="cast: true"></a-entity>
+
+      <!-- Text for Product Name -->
+      <a-text value="Doppler Device" position="-0.8 1.5 -0.5" color="#000" align="center" scale="1.5 1.5 1.5"></a-text>
+
+      <!-- Text for Product Description -->
+      <a-text value="Product Description goes here." position="-0.8 1.2 -0.5" color="#333" align="center" width="2"></a-text>
+
+      <!-- User Interaction -->
+      <a-entity class="clickable" gltf-model="#your-model" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+
+      <!-- User Interface Button -->
+      <a-entity ui-button></a-entity>
+    </a-marker>
+
+    <!-- Camera -->
+    <a-entity camera></a-entity>
+
+    <!-- Define UI Button Component -->
+    <script>
+      AFRAME.registerComponent('ui-button', {
+        init: function () {
+          var button = document.createElement('button');
+          button.innerHTML = 'Toggle Animation';
+          button.style.position = 'absolute';
+          button.style.bottom = '20px';
+          button.style.left = '50%';
+          button.style.transform = 'translateX(-50%)';
+          button.style.padding = '10px';
+          button.style.background = 'rgba(255, 255, 255, 0.7)';
+          button.style.border = 'none';
+          button.style.cursor = 'pointer';
+
+          button.addEventListener('click', function () {
+            var model = document.querySelector('#your-model');
+            var mixer = model.components['animation-mixer'];
+            if (mixer && mixer.mixer) {
+              if (mixer.mixer.paused) {
+                mixer.mixer.play();
+              } else {
+                mixer.mixer.pause();
+              }
+            }
+          });
+
+          this.el.appendChild(button);
+        }
+      });
+    </script>
+
+    <!-- Define User Interaction Component -->
+    <script>
+      AFRAME.registerComponent('clickable', {
+        init: function () {
+          var el = this.el;
+          el.addEventListener('click', function () {
+            console.log('Model Clicked!');
+            // Add your custom interaction logic here
+          });
+        }
+      });
+    </script>
+
+  </a-scene>
+
+</body>
+</html>
