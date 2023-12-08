@@ -20,21 +20,21 @@
     <!-- Ground Plane -->
     <a-plane position="0 0 0" rotation="-90 0 0" width="10" height="10" color="#888" shadow="receive: true"></a-plane>
 
-    <!-- QR Code Marker -->
-    <a-marker type="barcode" value="./INDQ STUDIO.png">
+    <!-- QR Code-->
+    <a-marker type="pattern" url="./pattern-INDQ STUDIO.patt">
+
+
       <!-- GLTF Model with Automatic Rotation, Scale, and Position Adjustment -->
-      <a-entity id="your-model" gltf-model="./your-model.gltf" scale="0.1 0.1 0.1" position="0 0 0" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" shadow="cast: true"></a-entity>
+      <a-entity id="your-model" gltf-model="./dopler model3 final v7/dopler model3 final v7.gltf" scale="0.1 0.1 0.1" position="0 0 0" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" shadow="cast: true"></a-entity>
 
-      <!-- Text for Product Name -->
-      <a-text value="Doppler Device" position="-0.8 1.5 -0.5" color="#000" align="center" scale="1.5 1.5 1.5"></a-text>
-
-      <!-- Text for Product Description -->
+      <!--Product Name -->
+      <a-text value="Doppler Divice" position="-0.8 1.5 -0.5" color="#000" align="center" scale="1.5 1.5 1.5"></a-text>
       <a-text value="Product Description goes here." position="-0.8 1.2 -0.5" color="#333" align="center" width="2"></a-text>
 
-      <!-- User Interaction -->
+     
       <a-entity class="clickable" gltf-model="#your-model" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
 
-      <!-- User Interface Button -->
+      
       <a-entity ui-button></a-entity>
     </a-marker>
 
