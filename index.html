@@ -4,16 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.5.0/aframe/build/aframe-ar.js"></script>
-  <script src="https://aframe.io/releases/1.2.0/aframe-inspector.min.js"></script>
+  <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
 </head>
 <body>
 
   <a-scene 
-  
-    vr-mode-ui="enabled: false;"
-    renderer="logarithmicDepthBuffer: true;"
-    arjs="debugUIEnabled: false; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;">
+   arjs="sourceType: webcam;">
 
     <!-- Lighting -->
     <a-light type="ambient" intensity="0.5"></a-light>
@@ -28,7 +24,7 @@
     <!-- QR Code Marker -->
     <a-marker type="pattern" url="./pattern-marker.patt">
       <!-- GLTF Model with Automatic Rotation, Scale, and Position Adjustment -->
-      <a-entity id="your-model" gltf-model="./dopler model3 final v7/the beats.glb" scale="0.1 0.1 0.1" position="0 0 0" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" shadow="cast: true"></a-entity>
+      <a-entity id="your-model" gltf-model="./dopler_gltf/the beats.glb" scale="0.1 0.1 0.1" position="0 0 0" rotation="0 0 0" animation="property: rotation; to: 0 360 0; loop: true; dur: 5000" shadow="cast: true"></a-entity>
 
       <!-- Text for Product Name -->
       <a-text value="hospital Bed" position="-0.8 1.5 -0.5" color="#000" align="center" scale="1.5 1.5 1.5"></a-text>
@@ -46,6 +42,38 @@
     <!-- Camera -->
     <a-entity camera></a-entity>
 
+    <!-- Define UI Button Component -->
+    <script>
+      AFRAME.registerComponent('ui-button', {
+        init: function () {
+          var button = document.createElement('button');
+          button.innerHTML = 'Toggle Animation';
+          button.style.position = 'absolute';
+          button.style.bottom = '20px';
+          button.style.left = '50%';
+          button.style.transform = 'translateX(-50%)';
+          button.style.padding = '10px';
+          button.style.background = 'rgba(255, 255, 255, 0.7)';
+          button.style.border = 'none';
+          button.style.cursor = 'pointer';
+
+          button.addEventListener('click', function () {
+            var model = document.querySelector('#your-model');
+            var mixer = model.components['animation-mixer'];
+            if (mixer && mixer.mixer) {
+              if (mixer.mixer.paused) {
+                mixer.mixer.play();
+              } else {
+                mixer.mixer.pause();
+              }
+            }
+          });
+
+          this.el.appendChild(button);
+        }
+      });
+    </script>
+
     <!-- Define User Interaction Component -->
     <script>
       AFRAME.registerComponent('clickable', {
@@ -59,43 +87,7 @@
       });
     </script>
 
-    <script>
-      AFRAME.registerComponent('ui-button', {
-        init: function () {
-          var self = this;
-          this.el.addEventListener('loaded', function () {
-            var button = document.createElement('button');
-            button.innerHTML = 'Toggle Animation';
-            button.style.position = 'absolute';
-            button.style.bottom = '20px';
-            button.style.left = '50%';
-            button.style.transform = 'translateX(-50%)';
-            button.style.padding = '10px';
-            button.style.background = 'rgba(255, 255, 255, 0.7)';
-            button.style.border = 'none';
-            button.style.cursor = 'pointer';
-
-            button.addEventListener('click', function () {
-              var model = document.querySelector('#your-model');
-              var mixer = model.components['animation-mixer'];
-              if (mixer && mixer.mixer) {
-                if (mixer.mixer.paused) {
-                  mixer.mixer.play();
-                } else {
-                  mixer.mixer.pause();
-                }
-              }
-            });
-
-            self.el.appendChild(button);
-          });
-        }
-      });
-    </script>
-
   </a-scene>
 
 </body>
 </html>
-
-
