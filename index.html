@@ -8,7 +8,10 @@
 </head>
 <body>
 
-  <a-scene embedded arjs="sourceType: webcam;">
+  <a-scene 
+  vr-mode-ui="enabled: false;"
+  renderer="logarithmicDepthBuffer: true;"
+  arjs="debugUIEnabled: false;sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960;">
 
     <!-- Lighting -->
     <a-light type="ambient" intensity="0.5"></a-light>
